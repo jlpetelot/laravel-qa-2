@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Question;
 use Illuminate\Http\Request;
 
@@ -14,11 +13,9 @@ class QuestionsController extends Controller
      */
     public function index()
     {
-        $questions = Question::latest()->paginate(5);
-
+        $questions = Question::with('user')->latest()->paginate(5);
         return view('questions.index', compact('questions'));
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -28,7 +25,6 @@ class QuestionsController extends Controller
     {
         //
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -39,7 +35,6 @@ class QuestionsController extends Controller
     {
         //
     }
-
     /**
      * Display the specified resource.
      *
@@ -50,7 +45,6 @@ class QuestionsController extends Controller
     {
         //
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -61,7 +55,6 @@ class QuestionsController extends Controller
     {
         //
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -73,7 +66,6 @@ class QuestionsController extends Controller
     {
         //
     }
-
     /**
      * Remove the specified resource from storage.
      *
