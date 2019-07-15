@@ -36,4 +36,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Méthode questions () pour la relation entre les tables users et questions
+     * Ici, un user peut poser plusieurs questions
+     *
+     * return $this->hasMany(Question::class);
+     **/
+    public function questions ()
+    {
+        return $this->hasMany(Question::class);
+    }
+
 }
