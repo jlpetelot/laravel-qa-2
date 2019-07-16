@@ -17,6 +17,7 @@ class Question extends Model
     {
         return $this->belongsTo(User::class);
     }
+
     /**
      * Méthode setTitleAttribute () pour le mutator du slug
      *
@@ -29,6 +30,7 @@ class Question extends Model
         // $this->attributes['slug'] = str_slug($value);
         $this->attributes['slug'] = Str::slug($value);
     }
+
     /**
      * Méthode getUrlAttribute () accesseur pour l'url
      *
@@ -38,6 +40,7 @@ class Question extends Model
     {
         return route("questions.show", $this->id);
     }
+
     /**
      * Méthode getCreatedDateAttribute () accesseur pour la date créée
      *
@@ -46,5 +49,22 @@ class Question extends Model
     public function getCreatedDateAttribute ()
     {
         return $this->created_at->diffForHumans();
+    }
+
+    /**
+    	* Méthode getStatusAttribute () accesseur pour le statut des questions
+    	*
+    	*
+    	* return "answered_accepted"; return "answered";
+    **/
+    public function getStatusAttribute ()
+    {
+        if ($this->answers > 0) {
+            if ($this->best_answer_id) {
+                return "answered_accepted";
+            }
+            return "answered";
+        }
+        return "unanswered";
     }
 }
