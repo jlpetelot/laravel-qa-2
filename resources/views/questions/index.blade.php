@@ -12,45 +12,46 @@
                                 <a href="{{ route('questions.create') }}" class="btn btn-outline-secondary">Ask Question</a>
                             </div>
                         </div>
+
                     </div>
 
                     <div class="card-body">
-
                         @include ('layouts._messages')
 
-                        @foreach($questions as $question)
+                        @foreach ($questions as $question)
                             <div class="media">
                                 <div class="d-flex flex-column counters">
                                     <div class="vote">
-                                        <strong>{{ $question->votes }}</strong> {{  Illuminate\Support\Str::plural('vote', $question->votes) }}
+                                        <strong>{{ $question->votes }}</strong> {{ Illuminate\Support\Str::plural('vote', $question->votes) }}
                                     </div>
                                     <div class="status {{ $question->status }}">
-                                        <strong>{{ $question->answers }}</strong> {{  Illuminate\Support\Str::plural('réponse', $question->answers) }}
+                                        <strong>{{ $question->answers }}</strong> {{ Illuminate\Support\Str::plural('réponse', $question->answers) }}
                                     </div>
                                     <div class="view">
-                                        {{ $question->views ." ". Illuminate\Support\Str::plural('vue', $question->views) }}
+                                        {{ $question->views . " " . Illuminate\Support\Str::plural('vue', $question->views) }}
                                     </div>
                                 </div>
                                 <div class="media-body">
-                                    <h3 class="mt-0">
-                                        <a href="{{ $question->url }}">{{ $question->title }}</a>
-                                    </h3>
+                                    <div class="d-flex align-items-center">
+                                        <h3 class="mt-0"><a href="{{ route('questions.edit', $question->id) }}">{{ $question->title }}</a></h3>
+                                        <div class="ml-auto">
+                                            <a href="{{ route('questions.edit', $question->id) }}" class="btn btn-sm btn-outline-info">Edit</a>
+                                        </div>
+                                    </div>
                                     <p class="lead">
-                                        Asked By
+                                        Asked by
                                         <a href="{{ $question->user->url }}">{{ $question->user->name }}</a>
                                         <small class="text-muted">{{ $question->created_date }}</small>
                                     </p>
-                                    <p>
-                                        {{--{{ str_limit($question->body, 250) }}--}}
-                                        {{ Illuminate\Support\Str::limit($question->body, 250, ' (...)') }}
-                                    </p>
+                                    {{ Illuminate\Support\Str::limit($question->body, 250) }}
                                 </div>
-
                             </div>
                             <hr>
                         @endforeach
-                        {{ $questions->links() }}
 
+                        <div class="mx-auto">
+                            {{ $questions->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
