@@ -38,7 +38,7 @@ class Question extends Model
      **/
     public function getUrlAttribute ()
     {
-        return route("questions.show", $this->id);
+        return route("questions.show", $this->slug);
     }
 
     /**
@@ -66,5 +66,15 @@ class Question extends Model
             return "answered";
         }
         return "unanswered";
+    }
+
+    /**
+     * Méthode getBodyHtmlAttribute () accesseur pour le formatage markdown HTML des body
+     *
+     * @return \Parsedown::instance()->text($this->body);
+     **/
+    public function getBodyHtmlAttribute ()
+    {
+        return \Parsedown::instance()->text($this->body);
     }
 }

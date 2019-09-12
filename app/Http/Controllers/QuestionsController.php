@@ -48,7 +48,9 @@ class QuestionsController extends Controller
      */
     public function show (Question $question)
     {
-        //
+        $question->increment('views');
+
+        return view('questions.show', compact('question'));
     }
     /**
      * Show the form for editing the specified resource.
