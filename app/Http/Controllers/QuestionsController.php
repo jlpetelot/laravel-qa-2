@@ -60,7 +60,10 @@ class QuestionsController extends Controller
      */
     public function edit (Question $question)
     {
-        return view('questions.edit', compact('question'));
+        if (\Gate::denies('update-question', $question)) {
+            abort(403, "Vous n'êtes pas la personne qui a rédigé cette question. Sa modification est impossible.");
+        }
+        return view("questions.edit", compact('question'));
     }
     /**
      * Update the specified resource in storage.
@@ -71,8 +74,12 @@ class QuestionsController extends Controller
      */
     public function update (AskQuestionRequest $request, Question $question)
     {
+        if (\Gate::denies('update-question', $question)) {
+            abort(403, "Vous n'êtes pas la personne qui a rédigé cette question. Sa modification est impossible.");
+        }
+    
         $question->update($request->only('title', 'body'));
-
+    
         return redirect()->route('questions.index')->with('success', "votre question a bien été mise à jour !");
     }
     /**
@@ -83,8 +90,11 @@ class QuestionsController extends Controller
      */
     public function destroy (Question $question)
     {
+        if (\Gate::denies('delete-question', $question)) {
+            abort(403, "Vous n'êtes pas la personne qui a rédigé cette question. Sa modification est impossible.");
+        }
+    
         $question->delete();
-
-        return redirect('/questions')->with('success', "votre question dont le titre était : « $question->title » a bien été supprimée !");
+        return redirect()->route('questions.index')->with('success', "votre question a bien été supprimée !");
     }
 }
