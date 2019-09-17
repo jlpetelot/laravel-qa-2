@@ -3,6 +3,7 @@
 namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use App\Answer;
 
 class Question extends Model
 {
@@ -16,6 +17,17 @@ class Question extends Model
     public function user ()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+    * Méthode answers () relation entre les tables questions et answers
+    * Ici une question a plusieurs réponses
+    * 
+    * @return $this->hasMany(Answer::class);
+    **/
+    public function answers ()
+    {
+        return $this->hasMany(Answer::class);
     }
 
     /**
@@ -59,7 +71,7 @@ class Question extends Model
     **/
     public function getStatusAttribute ()
     {
-        if ($this->answers > 0) {
+        if ($this->answers_count > 0) {
             if ($this->best_answer_id) {
                 return "answered_accepted";
             }
