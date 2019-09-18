@@ -17,7 +17,7 @@ class Answer extends Model
     **/
     public function question ()
     {
-        $this->belongsTo(Question::class);
+        return $this->belongsTo(Question::class);
     }
 
      /**
@@ -39,5 +39,21 @@ class Answer extends Model
     public function getBodyHtmlAttribute ()
     {
         return \Parsedown::instance()->text($this->body);
+    }
+
+    /**
+     * Méthode statique boot () accesseur pour le formatage markdown HTML des body
+     *
+     * @param $answer
+     * @return void
+     **/
+    public static function boot ()
+    {
+        parent::boot();
+
+        static::created(function ($answer) {
+            $answer->question->increment('answers_count');
+            // $answer->question->save();
+        });
     }
 }
