@@ -54,4 +54,17 @@ class User extends Authenticatable
         // return route("questions.show", $this->id);
         return "#";
     }
+
+    /**
+     * Méthode getAvatarAttribute () accesseur pour l'avatar des users
+     *
+     * @return $this->created_at->diffForHumans();
+     **/
+    public function getAvatarAttribute ()
+    {
+
+        $email = $this->email;
+        $size = 32;
+        return "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?s=" . $size;
+    }
 }

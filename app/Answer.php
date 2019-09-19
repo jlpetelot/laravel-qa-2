@@ -42,7 +42,9 @@ class Answer extends Model
     }
 
     /**
-     * Méthode statique boot () accesseur pour le formatage markdown HTML des body
+     * Méthode static boot () permet à chaque fois qu'une réponse est créée d'ncrémenter le compteur de réponse
+     * Pas la peine d'enregistrer la réponse ($answer->question->save()),
+     * elle se fait automatiquemen par Laravel avec la méthode increment ()
      *
      * @param $answer
      * @return void
@@ -55,5 +57,15 @@ class Answer extends Model
             $answer->question->increment('answers_count');
             // $answer->question->save();
         });
+    }
+
+    /**
+     * Méthode getCreatedDateAttribute () accesseur pour la date créée
+     *
+     * @return $this->created_at->diffForHumans();
+     **/
+    public function getCreatedDateAttribute ()
+    {
+        return $this->created_at->diffForHumans();
     }
 }
