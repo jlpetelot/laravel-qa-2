@@ -10,6 +10,15 @@ class Answer extends Model
 {
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'body', 'user_id'
+    ];
+
+    /**
     * Méthode question () relation entre les tables answers et questions
     * Ici une réponse appartient a une seule question
     * 
