@@ -17,9 +17,23 @@ class AnswersController extends Controller
      */
     public function store (Question $question, Request $request)
     {
-        $question->answers()->create($request->validate([
-            'body' => 'required'
-        ]) + ['user_id' => \Auth::id()]);
+//        $question->answers()->create($request->validate([
+//            'body' => 'required'
+//        ]) + ['user_id' => \Auth::id()]);
+
+        $request->validate([
+            'body' => [function ($attribute, $value, $fail) {
+                // Si l'internaute n'est pas logué, message d'erreur envoyé via dans la validation
+                if (! \Auth::check()) {
+                    return $fail("Vous ne pouvez poster aucune réponse sans être identifié.");
+                }
+            }, 'required']
+        ]);
+
+        $question->answers()->create([
+            'body' => $request->body,
+            'user_id' => \Auth::id()
+        ]);
 
         return back()->with('success', "votre réponse a été envoyée avec succès.");
     }
