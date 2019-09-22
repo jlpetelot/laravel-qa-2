@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Providers;
+use App\Answer;
+use App\Policies\AnswerPolicy;
 use App\Question;
 use App\Policies\QuestionPolicy;
 
@@ -16,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Question::class => QuestionPolicy::class,
+        Answer::class => AnswerPolicy::class,
     ];
 
     /**

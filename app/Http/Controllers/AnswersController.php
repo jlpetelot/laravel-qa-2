@@ -45,9 +45,13 @@ class AnswersController extends Controller
      * @param  \App\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function edit (Answer $answer)
+    public function edit (Question $question, Answer $answer)
     {
-        //
+        // On s'assure que celui qui édite la réponse est le user logué
+        $this->authorize('update', $answer);
+
+        // On retourne sur la vue answers.edit avec answer comme variable
+        return view('answers.edit', compact('question', 'answer'));
     }
 
     /**
@@ -57,9 +61,18 @@ class AnswersController extends Controller
      * @param  \App\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function update (Request $request, Answer $answer)
+    public function update (Request $request, Question $question, Answer $answer)
     {
-        //
+        // On s'assure que celui qui édite la réponse est le user logué
+        $this->authorize('update', $answer);
+
+        // On valide la question et on update en même temps
+        $answer->update($request->validate([
+            'body' => 'required',
+        ]));
+
+        // On se redirige sur la vue questions.show avec $question->slug comme variable (la vue a besoin du slug) et message de session succès.
+        return redirect()->route('questions.show', $question->slug)->with('success', 'Votre réponse a été mise à jour');
     }
 
     /**
