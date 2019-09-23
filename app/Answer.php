@@ -53,7 +53,7 @@ class Answer extends Model
     /**
      * Méthode static boot () permet à chaque fois qu'une réponse est créée d'ncrémenter le compteur de réponse
      * Pas la peine d'enregistrer la réponse ($answer->question->save()),
-     * elle se fait automatiquemen par Laravel avec la méthode increment ()
+     * elle se fait automatiquement par Laravel avec la méthode increment ()
      *
      * @param $answer
      * @return void
@@ -65,6 +65,10 @@ class Answer extends Model
         static::created(function ($answer) {
             $answer->question->increment('answers_count');
             // $answer->question->save();
+        });
+
+        static::deleted(function ($answer) {
+            $answer->question->decrement('answers_count');
         });
     }
 

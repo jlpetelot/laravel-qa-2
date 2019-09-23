@@ -22,7 +22,8 @@
                                 @endif
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-lg btn-outline-primary" type="submit">Update</button>
+                                <button class="btn btn-lg btn-outline-primary" type="submit">Mise à jour</button>
+                                <a href="{{ route('questions.show', $question->slug) }}" role="button" class="btn btn-lg btn-outline-secondary">Annulez</a>
                             </div>
                         </form>
 

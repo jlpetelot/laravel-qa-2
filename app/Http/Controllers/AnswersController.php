@@ -81,8 +81,14 @@ class AnswersController extends Controller
      * @param  \App\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function destroy (Answer $answer)
+    public function destroy (Question $question, Answer $answer)
     {
-        //
+        // On s'assure que celui qui update la réponse est le user logué
+        $this->authorize('delete', $answer);
+
+        // On efface la question de la BDD
+        $answer->delete();
+
+        return back()->with('success', 'votre réponse a été supprimée.');
     }
 }
