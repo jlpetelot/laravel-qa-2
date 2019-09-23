@@ -2,7 +2,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-class RenameAnswersInQuestionsTable extends Migration
+class AddForeignBestAnswerIdToQuestionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,10 @@ class RenameAnswersInQuestionsTable extends Migration
     public function up()
     {
         Schema::table('questions', function (Blueprint $table) {
-            $table->renameColumn('answers', 'answers_count');
+            $table->foreign('best_answer_id')
+                ->references('id')
+                ->on('answers')
+                ->onDelete('SET NULL');
         });
     }
     /**
@@ -23,7 +26,7 @@ class RenameAnswersInQuestionsTable extends Migration
     public function down()
     {
         Schema::table('questions', function (Blueprint $table) {
-            $table->renameColumn('answers_count', 'answers');
+            $table->dropForeign(['best_answer_id']);
         });
     }
 }
