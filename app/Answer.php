@@ -21,7 +21,7 @@ class Answer extends Model
     /**
     * Méthode question () relation entre les tables answers et questions
     * Ici une réponse appartient a une seule question
-    * 
+    *
     * @return $this->belongsTo(Question::class);;
     **/
     public function question ()
@@ -32,7 +32,7 @@ class Answer extends Model
      /**
     * Méthode user () relation entre les tables answers et users
     * Ici une réponse appartient a un seul user
-    * 
+    *
     * @return $this->belongsTo(User::class);;
     **/
     public function user ()
@@ -84,6 +84,26 @@ class Answer extends Model
 
     public function getStatusAttribute()
     {
-        return $this->id === $this->question->best_answer_id ? 'vote-accepted' : '';
+        return $this->isBest() ? 'vote-accepted' : '';
+    }
+
+    /**
+     * Méthode getIsBestAttribute () accesseur pour le status des meilleures réponses pour les non logués
+     *
+     * @return $this->isBest();
+     **/
+    public function getIsBestAttribute ()
+    {
+        return $this->isBest();
+    }
+
+    /**
+     * Méthode isBest () accesseur pour le status des meilleures réponses des 2 logués et non logués
+     *
+     * @return $this->id === $this->question->best_answer_id;
+     **/
+    public function isBest ()
+    {
+        return $this->id === $this->question->best_answer_id;
     }
 }

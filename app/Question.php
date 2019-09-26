@@ -22,7 +22,7 @@ class Question extends Model
     /**
     * Méthode answers () relation entre les tables questions et answers
     * Ici une question a plusieurs réponses
-    * 
+    *
     * @return $this->hasMany(Answer::class);
     **/
     public function answers ()
@@ -88,5 +88,16 @@ class Question extends Model
     public function getBodyHtmlAttribute ()
     {
         return \Parsedown::instance()->text($this->body);
+    }
+
+    /**
+     * Méthode acceptBestAnswer () pour la méthode __invoke () du contrôleur AcceptAnswerController.php
+     *
+     * @param Answer $answer
+     **/
+    public function acceptBestAnswer (Answer $answer)
+    {
+        $this->best_answer_id = $answer->id;
+        $this->save();
     }
 }
